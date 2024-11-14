@@ -2,7 +2,7 @@ import streamlit as st
 
 # Variables modificables
 INTERES_BANCARIO_CORRIENTE = 18.6  # Puedes actualizar esto cada mes
-PUNTAJE_CLIENTE_NUEVO = 50  # Puntaje inicial para clientes sin historial
+PUNTAJE_CLIENTE_NUEVO = 20  # Puntaje inicial bajo para clientes sin historial
 
 # Título de la aplicación
 st.title("Sistema de Scoring para Línea de Crédito Loansi")
@@ -64,7 +64,7 @@ def calcular_scoring(ingresos_semanales, ocupacion, referencias, calidad_referen
     # Puntaje total
     puntaje_total = puntaje_ingresos_total + puntaje_referencias_total + puntaje_historial + puntaje_datacredito_final
 
-    # Calificación de Riesgo
+    # Calificación de Riesgo basada en el puntaje total ajustado
     if puntaje_total <= 45:
         calificacion_riesgo = "Alto Riesgo - Rechazo Potencial"
     elif 46 <= puntaje_total <= 70:
@@ -80,7 +80,7 @@ ocupacion = st.selectbox("Ocupación", ["Empleado", "Comerciante fijo", "Indepen
 referencias = st.selectbox("Número de referencias personales", [0, 1, 2])
 calidad_referencia = st.selectbox("Calidad de la referencia", ["Familiar directo", "Amigo confiable", "Otro"])
 historial_pago = st.selectbox("Historial de pagos con Loansi", ["Buen historial completo", "Retrasos menores", "Historial único", "Nuevo cliente"])
-puntaje_datacredito = st.number_input("Puntaje en Datacrédito (Si no tiene historial, ingrese 600):", min_value=0, step=50)
+puntaje_datacredito = st.number_input("Puntaje en Datacrédito (Si no tiene historial, ingrese 400 o 500 según perfil):", min_value=0, step=50)
 
 # Botón para calcular el puntaje
 if st.button("Calcular Puntaje"):
@@ -88,4 +88,3 @@ if st.button("Calcular Puntaje"):
     st.write("### Resultado de Scoring")
     st.write(f"**Puntaje Total**: {puntaje}")
     st.write(f"**Calificación de Riesgo**: {riesgo}")
-
